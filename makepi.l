@@ -2,6 +2,29 @@
 # Derived from the following Haskell code described here
 # https://www.cs.ox.ac.uk/people/jeremy.gibbons/publications/spigot.pdf
 
+(de digit (Env)
+   (job Env
+      (tco (Q R S K N L)
+         (if (>= (- (+ R (* 4 Q)) S) (* N S))
+            (tc
+               (* Q K)
+               (* L (+ R (* 2 Q)))
+               (* S L)
+               (inc K)
+               (/ (+ (* Q (+ 2 (* 7 K))) (* R L)) (* S L))
+               (+ 2 L) ) )
+         (prog1 N
+            (let M (- (/ (* 10 (+ R (* 3 Q))) S) (* 10 N))
+               (setq Q (* 10 Q)  R (* 10 (- R (* N S)))  N M) ) ) ) ) )
+
+# Print 'N' or all digits of PI
+(de pi (N)
+   (let E (env 'Q 1  'R 0  'S 1  'K 1  'N 3  'L 3)
+      (do (or N T)
+         (prin (digit E))
+         (flush) ) )
+   (prinl) )
+
 #{
 Optimized Gosper Series PI
 
